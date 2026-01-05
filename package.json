@@ -27,8 +27,10 @@
     "@electron-toolkit/preload": "^3.0.2",
     "@electron-toolkit/utils": "^4.0.0",
     "@tailwindcss/vite": "^4.1.18",
+    "@types/fs-extra": "^11.0.4",
     "clsx": "^2.1.1",
     "framer-motion": "^12.24.0",
+    "fs-extra": "^11.3.3",
     "lucide-react": "^0.562.0",
     "tailwind-merge": "^3.4.0"
   },

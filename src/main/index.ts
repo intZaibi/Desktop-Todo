@@ -1,6 +1,7 @@
 import { app, BrowserWindow, ipcMain, screen } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+import fs from 'fs-extra'
 
 let todoWindow: BrowserWindow | null = null
 let toggleWindow: BrowserWindow | null = null
@@ -126,6 +127,30 @@ app.whenReady().then(() => {
       }
 
       toggleWindow.setPosition(x, y)
+    }
+  })
+
+  const TODO_PATH = join(app.getPath('desktop'), 'todos.json')
+
+  ipcMain.handle('read-todos', async () => {
+    try {
+      if (await fs.pathExists(TODO_PATH)) {
+        return await fs.readJson(TODO_PATH)
+      }
+      return []
+    } catch (err) {
+      console.error('Error reading todos:', err)
+      return []
+    }
+  })
+
+  ipcMain.handle('write-todos', async (_, todos) => {
+    try {
+      await fs.writeJson(TODO_PATH, todos, { spaces: 2 })
+      return true
+    } catch (err) {
+      console.error('Error writing todos:', err)
+      return false
     }
   })
 

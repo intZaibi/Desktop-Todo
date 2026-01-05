@@ -4,7 +4,9 @@ import { electronAPI } from '@electron-toolkit/preload'
 // Custom APIs for renderer
 const api = {
   windowMove: (deltaX: number, deltaY: number) => ipcRenderer.send('window-move', { deltaX, deltaY }),
-  startWindowMove: () => ipcRenderer.send('start-window-move')
+  startWindowMove: () => ipcRenderer.send('start-window-move'),
+  readTodos: () => ipcRenderer.invoke('read-todos'),
+  writeTodos: (todos: any) => ipcRenderer.invoke('write-todos', todos)
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

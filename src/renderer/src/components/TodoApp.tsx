@@ -124,15 +124,26 @@ function SortableTodoItem({ todo, onDelete, onToggle, onEdit }: SortableItemProp
 }
 
 export default function TodoApp() {
-  const [todos, setTodos] = useState<Todo[]>(() => {
-    const saved = localStorage.getItem('todos')
-    return saved ? JSON.parse(saved) : []
-  })
+  const [todos, setTodos] = useState<Todo[]>([])
   const [inputValue, setInputValue] = useState('')
+  const [isLoaded, setIsLoaded] = useState(false)
 
+  // Load todos from file on mount
   useEffect(() => {
-    localStorage.setItem('todos', JSON.stringify(todos))
-  }, [todos])
+    const loadTodos = async () => {
+      const data = await window.api.readTodos()
+      setTodos(data)
+      setIsLoaded(true)
+    }
+    loadTodos()
+  }, [])
+
+  // Save todos to file whenever they change
+  useEffect(() => {
+    if (isLoaded) {
+      window.api.writeTodos(todos)
+    }
+  }, [todos, isLoaded])
 
   const sensors = useSensors(
     useSensor(PointerSensor),

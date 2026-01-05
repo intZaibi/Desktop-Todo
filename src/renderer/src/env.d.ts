@@ -6,5 +6,7 @@ interface Window {
   api: {
     windowMove: (deltaX: number, deltaY: number) => void
     startWindowMove: () => void
+    readTodos: () => Promise<any[]>
+    writeTodos: (todos: any[]) => Promise<boolean>
   }
 }
