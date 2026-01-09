@@ -2,10 +2,6 @@
 
 An Electron application with React and TypeScript
 
-## Recommended IDE Setup
-
-- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
-
 ## Project Setup
 
 ### Install
@@ -32,3 +28,17 @@ $ npm run build:mac
 # For Linux
 $ npm run build:linux
 ```
+
+### Run
+
+```bash
+$ npm run start
+```
+OR: 
+
+Go to the `./dist/win-unpacked` directory and run the `popup-todo.exe` executable file.
+You can create a shortcut of the `popup-todo.exe` file and place it in the `Start Menu` or `Desktop`.
+
+## License
+
+MIT

@@ -94,6 +94,7 @@ function SortableTodoItem({ todo, onDelete, onToggle, onEdit }: SortableItemProp
           />
         ) : (
           <span
+            title={todo.text}
             className={cn(
               'text-white transition-all block truncate',
               todo.completed && 'line-through text-white/50 opacity-50'
@@ -192,27 +193,28 @@ export default function TodoApp() {
   }
 
   return (
-    <div className="w-screen h-screen bg-black/80 flex flex-col rounded-4xl overflow-hidden border border-white/20">
+    <div className="w-screen h-screen bg-black/80 flex flex-col rounded-3xl overflow-hidden border border-white/20">
       {/* Header */}
       <div className="p-6 pb-2 flex items-center justify-between drag-region">
         <div className="flex flex-col">
           <h1 className="text-2xl font-bold bg-linear-to-r from-white to-white/60 bg-clip-text text-transparent">
             Stay Focused
           </h1>
-          <div className="no-drag mt-1">
+          <div className="no-drag mt-4">
             <select
               onChange={(e) => window.electron.ipcRenderer.send('update-toggle-position', e.target.value)}
               className="bg-white/5 border border-white/10 rounded-lg px-2 py-1 text-[10px] text-white/40 focus:outline-none hover:bg-white/10 transition-colors uppercase tracking-widest cursor-pointer"
               defaultValue="bottom-right"
             >
-              <option value="bottom-right">Bottom Right</option>
-              <option value="bottom-left">Bottom Left</option>
-              <option value="top-right">Top Right</option>
-              <option value="top-left">Top Left</option>
+              <option className='text-gray-600' value="bottom-right">Bottom Right</option>
+              <option className='text-gray-600' value="bottom-left">Bottom Left</option>
+              <option className='text-gray-600' value="top-right">Top Right</option>
+              <option className='text-gray-600' value="top-left">Top Left</option>
             </select>
           </div>
         </div>
         <button
+          title='Hide Window'
           onClick={handleToggleWindow}
           className="no-drag p-2 rounded-full hover:bg-white/10 text-white/60 transition-colors self-start mt-1"
         >
@@ -221,7 +223,7 @@ export default function TodoApp() {
       </div>
 
       {/* Input Section */}
-      <form onSubmit={handleAddTodo} className="px-6 py-4 flex gap-2">
+      <form onSubmit={handleAddTodo} className="px-6 py-3 flex gap-2">
         <div className="relative flex-1">
           <input
             type="text"

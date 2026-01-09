@@ -10,12 +10,13 @@ function createTodoWindow(): void {
   todoWindow = new BrowserWindow({
     width: 380,
     height: 600,
-    show: false,
+    show: true,
     autoHideMenuBar: true,
     frame: false,
     transparent: true,
     alwaysOnTop: true,
-    resizable: false,
+    resizable: true,
+    skipTaskbar: true,
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
@@ -103,8 +104,20 @@ app.whenReady().then(() => {
       window.setBounds({
         x: Math.round(x + deltaX),
         y: Math.round(y + deltaY),
-        width: window.getBounds().width,
-        height: window.getBounds().height
+      })
+    }
+  })
+
+
+  ipcMain.on('toggle-move', (event, { deltaX, deltaY }) => {
+    const window = BrowserWindow.fromWebContents(event.sender)
+    if (window) {
+      const { x, y } = window.getBounds()
+      window.setBounds({
+        x: Math.round(x + deltaX),
+        y: Math.round(y + deltaY),
+        width: 62,
+        height: 62
       })
     }
   })
@@ -130,7 +143,8 @@ app.whenReady().then(() => {
     }
   })
 
-  const TODO_PATH = join(app.getPath('desktop'), 'todos.json')
+  // const TODO_PATH = join(app.getPath('desktop'), 'todos.json')
+  const TODO_PATH = join('./', 'todos.json')
 
   ipcMain.handle('read-todos', async () => {
     try {
