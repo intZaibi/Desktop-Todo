@@ -1,6 +1,6 @@
 import { ListCheck, X } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function ToggleButton() {
   const [isDragging, setIsDragging] = useState(false)
@@ -10,6 +10,13 @@ export default function ToggleButton() {
       window.electron.ipcRenderer.send('toggle-todo')
     }
   }
+
+  useEffect(() => {
+    // return cleanup function
+    return () => {
+      window.electron.ipcRenderer.removeAllListeners('toggle-move')
+    }
+  }, [])  
 
   const handleMouseDown = (event: React.MouseEvent) => {
     event.preventDefault()
@@ -27,7 +34,7 @@ export default function ToggleButton() {
       document.removeEventListener('mousemove', handleMouseMove)
       document.removeEventListener('mouseup', handleMouseUp)
       // Reset dragging state after a brief delay to prevent click from firing
-      setTimeout(() => setIsDragging(false), 50)
+      setIsDragging(false)
     }
 
     document.addEventListener('mousemove', handleMouseMove)
